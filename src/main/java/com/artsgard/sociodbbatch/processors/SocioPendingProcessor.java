@@ -1,4 +1,4 @@
-package com.artsgard.sociodbbatch.model.com.artsgard.sociodbbatch.processors;
+package com.artsgard.sociodbbatch.processors;
 
 import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
 import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
