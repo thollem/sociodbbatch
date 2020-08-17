@@ -1,25 +1,24 @@
-package com.artsgard.sociodbbatch;
+package com.artsgard.sociodbbatch.config;
 
 import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
-import com.artsgard.sociodbbatch.writers.SocioActiveWriter;
-import com.artsgard.sociodbbatch.readers.SocioAcitveReader;
-import com.artsgard.sociodbbatch.model.com.artsgard.sociodbbatch.processors.SocioActiveProcessor;
 import com.artsgard.sociodbbatch.model.SocioModel;
-import com.artsgard.sociodbbatch.model.com.artsgard.sociodbbatch.processors.SocioPendingProcessor;
+import com.artsgard.sociodbbatch.processors.SocioActiveProcessor;
+import com.artsgard.sociodbbatch.processors.SocioPendingProcessor;
+import com.artsgard.sociodbbatch.readers.SocioAcitveReader;
 import com.artsgard.sociodbbatch.readers.SocioPendingReader;
+import com.artsgard.sociodbbatch.writers.SocioActiveWriter;
 import com.artsgard.sociodbbatch.writers.SocioPendingWriter;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  *
@@ -27,13 +26,18 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableBatchProcessing
-public class SocioDbBatchConfig extends DefaultBatchConfigurer {
-
-    @Autowired
+public class BatchFlowConfig {
+    
+   @Autowired
+    @Qualifier("dbDataSource") 
     private DataSource datasource;
 
     @Autowired
     private JobBuilderFactory jobBuilders;
+    
+    @Autowired
+    @Qualifier("dbTransactionManager") 
+    private PlatformTransactionManager transactionManager;
 
     @Autowired
     private StepBuilderFactory stepBuilders;
@@ -56,38 +60,33 @@ public class SocioDbBatchConfig extends DefaultBatchConfigurer {
     @Autowired
     private SocioPendingWriter pendingWriter;
 
-    @Bean
-    public Job customerReportJob() throws Exception {
+    @Bean("sociojob")
+    public Job socioJob() throws Exception {
         return jobBuilders.get("socioDbBatchJob")
-                .start(chunkStep1())
-                .next(chunkStep2())
+                .start(socioStep1())
+                .next(socioStep2())
                 .build();
     }
 
     @Bean
-    public Step chunkStep1() throws Exception {
-        return stepBuilders.get("socioBatchStep1")
+    public Step socioStep1() throws Exception {
+        return stepBuilders.get("socioDbBatchStepActive")
                 .<SocioModel, SocioModel>chunk(20)
                 .reader(activeReader.itemReader(datasource))
                 .processor(activeProcessor)
                 .writer(activeWriter)
+                .transactionManager(transactionManager)
                 .build();
     }
-    
+   
     @Bean
-    public Step chunkStep2() throws Exception {
-        return stepBuilders.get("socioBatchStep1")
+    public Step socioStep2() throws Exception {
+        return stepBuilders.get("socioDbBatchStepPending")
                 .<SocioAssociatedSocio, SocioAssociatedSocio>chunk(20)
                 .reader(pendingReader.itemReader(datasource))
                 .processor(pendingProcessor)
                 .writer(pendingWriter)
+                .transactionManager(transactionManager)
                 .build();
-    }
-
-    @Override
-    protected JobRepository createJobRepository() throws Exception {
-        MapJobRepositoryFactoryBean factoryBean = new MapJobRepositoryFactoryBean();
-        factoryBean.afterPropertiesSet();
-        return factoryBean.getObject();
     }
 }

@@ -2,25 +2,23 @@ package com.artsgard.sociodbbatch.writers;
 
 import com.artsgard.sociodbbatch.model.SocioModel;
 import com.artsgard.sociodbbatch.repository.SocioRepository;
-import org.springframework.batch.item.ItemWriter;
 import java.util.List;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author artsgard
- */
 @Component
-public class SocioActiveWriter implements ItemWriter<SocioModel> {
+public class SocioActiveWriter extends JpaItemWriter<SocioModel> {
 
     @Autowired
     private SocioRepository repo;
-
+/*
+    @Autowired
+    @Qualifier("dbEntityManagerFactory")
+    private EntityManagerFactory entityManagerFactory;
+*/
     @Override
-    @Transactional
-    public void write(List<? extends SocioModel> socios) throws Exception {
+    public void write(List<? extends SocioModel> socios) {
         repo.saveAll(socios);
     }
 }

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "country") //, catalog = "socio_db")
+@Table(name = "country")//, schema = "socio_db") //, catalog = "socio_db")
 public class CountryModel implements Serializable {
     
     @Id

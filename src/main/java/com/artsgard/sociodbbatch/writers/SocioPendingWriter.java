@@ -8,19 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author artsgard
- */
+
 @Component
 public class SocioPendingWriter implements ItemWriter<SocioAssociatedSocio> {
 
     @Autowired
     private AssociatedSocioRepository repo;
-
+/*    
+    @Autowired
+    @Qualifier("dbEntityManagerFactory")
+    private EntityManagerFactory entityManagerFactory;
+*/
     @Override
     @Transactional
-    public void write(List<? extends SocioAssociatedSocio> asociatedSocios) throws Exception {
+    public void write(List<? extends SocioAssociatedSocio> asociatedSocios) {
         repo.saveAll(asociatedSocios);
     }
 }

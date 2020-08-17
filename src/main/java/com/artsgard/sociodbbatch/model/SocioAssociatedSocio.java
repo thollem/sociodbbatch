@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name = "SocioAssociatedSocio")
-@Table(name = "socio_associated_socio") //, catalog = "socio_db")
+@Table(name = "socio_associated_socio")//, schema = "socio_db") //, catalog = "socio_db")
 @IdClass(SocioAssociatedSocioId.class)
 public class SocioAssociatedSocio implements Serializable {
 

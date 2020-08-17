@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "language") //, catalog = "socio_db")
+@Table(name = "language")//, schema = "socio_db") //, catalog = "socio_db")
 public class LanguageModel implements Serializable {
     
     @Id

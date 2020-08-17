@@ -3,6 +3,7 @@ package com.artsgard.sociodbbatch.processors;
 import com.artsgard.sociodbbatch.model.SocioModel;
 import com.artsgard.sociodbbatch.repository.SocioRepository;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.batch.item.ItemProcessor;
@@ -20,14 +21,8 @@ public class SocioActiveProcessor implements ItemProcessor<SocioModel, SocioMode
 
     @Override
     public SocioModel process(SocioModel socio) throws Exception {
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<socio " + socio.getUsername());
-        Timestamp date = socio.getLastCheckinDate();
-        if (date.after(date)) {
-            socio.setActive(Boolean.TRUE);
-        } else {
-            socio.setActive(Boolean.TRUE);
-        }            
-            
+        socio.setLastName(socio.getLastName() + "-ex" );
+        System.out.println(socio.getLastName());
         return socio;
     }
 }

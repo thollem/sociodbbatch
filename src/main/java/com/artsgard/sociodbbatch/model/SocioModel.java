@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "socio") //, catalog = "socio_db")
+@Table(name = "socio")//, schema = "socio_db") //, catalog = "socio_db")
 public class SocioModel implements Serializable { // UserDetails
 
     public SocioModel(Long id, String username, String password, String firstName, String lastName, String email, 
