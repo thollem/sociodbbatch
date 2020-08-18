@@ -34,7 +34,7 @@ public class ScheduledTasks {
     private JobLauncher jobLauncher;
 
     @Autowired
-    @Qualifier("sociojob")
+    @Qualifier("userjob")
     private Job job;
 
     public static final int ONE_SINGLE_DAY = 86400000;

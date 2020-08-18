@@ -33,7 +33,8 @@ public class BatchDbRepoConfig {
 	@Bean(name = "dbDataSource")
 	@ConfigurationProperties("app.datasource.db.hikari")
 	public DataSource dataSource(@Qualifier("dbDataSourceProperties") DataSourceProperties dataSourceProperties) {
-		return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
+		return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class)
+				.build();
 	}
 	
 	@Bean(name = "dbEntityManagerFactory")

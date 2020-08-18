@@ -1,19 +1,21 @@
 package com.artsgard.sociodbbatch.config;
 
-import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
-import com.artsgard.sociodbbatch.model.SocioModel;
-import com.artsgard.sociodbbatch.processors.SocioActiveProcessor;
-import com.artsgard.sociodbbatch.processors.SocioPendingProcessor;
-import com.artsgard.sociodbbatch.readers.SocioAcitveReader;
-import com.artsgard.sociodbbatch.readers.SocioPendingReader;
-import com.artsgard.sociodbbatch.writers.SocioActiveWriter;
-import com.artsgard.sociodbbatch.writers.SocioPendingWriter;
+
+import com.artsgard.sociodbbatch.model.Address;
+import com.artsgard.sociodbbatch.model.User;
+import com.artsgard.sociodbbatch.processors.AddressProcessor;
+import com.artsgard.sociodbbatch.processors.UserProcessor;
+import com.artsgard.sociodbbatch.readers.AddressReader;
+import com.artsgard.sociodbbatch.readers.UserReader;
+import com.artsgard.sociodbbatch.writers.AddressWriter;
+import com.artsgard.sociodbbatch.writers.UserWriter;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,64 +30,68 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableBatchProcessing
 public class BatchFlowConfig {
     
-   @Autowired
-    @Qualifier("dbDataSource") 
-    private DataSource datasource;
-
     @Autowired
-    private JobBuilderFactory jobBuilders;
+    @Qualifier("dbDataSource")
+    private DataSource dataSource;
     
     @Autowired
     @Qualifier("dbTransactionManager") 
     private PlatformTransactionManager transactionManager;
+    
+    @Autowired
+    private JobBuilderFactory jobBuilders;
 
     @Autowired
     private StepBuilderFactory stepBuilders;
-
-    @Autowired
-    private SocioActiveProcessor activeProcessor;
-
-    @Autowired
-    private SocioAcitveReader activeReader;
-
-    @Autowired
-    private SocioActiveWriter activeWriter;
     
     @Autowired
-    private SocioPendingProcessor pendingProcessor;
+    private JobRepository jobRepository;
+    
+    @Autowired
+    private UserProcessor userProcessor;
 
     @Autowired
-    private SocioPendingReader pendingReader;
+    private UserReader userReader;
 
     @Autowired
-    private SocioPendingWriter pendingWriter;
+    private UserWriter userWriter;
+    
+    @Autowired
+    private AddressProcessor addressProcessor;
 
-    @Bean("sociojob")
-    public Job socioJob() throws Exception {
-        return jobBuilders.get("socioDbBatchJob")
-                .start(socioStep1())
-                .next(socioStep2())
+    @Autowired
+    private AddressReader addressReader;
+
+    @Autowired
+    private AddressWriter addressWriter;
+
+    @Bean(name = "userjob")
+    public Job userDbJob() throws Exception {
+        return jobBuilders.get("batchdbsociowriteJob")
+                .repository(jobRepository)
+                .start(userStep1())
+                .next(userStep2())
                 .build();
     }
 
     @Bean
-    public Step socioStep1() throws Exception {
-        return stepBuilders.get("socioDbBatchStepActive")
-                .<SocioModel, SocioModel>chunk(20)
-                .reader(activeReader.itemReader(datasource))
-                .processor(activeProcessor)
-                .writer(activeWriter)
+    public Step userStep1() throws Exception {
+        return stepBuilders.get("userbatchdbsociowriteStep")
+                .<User, User>chunk(20)
+                .reader(userReader.itemReader(dataSource))
+                .processor(userProcessor)
+                .writer(userWriter)
                 .transactionManager(transactionManager)
                 .build();
     }
-   
+    
     @Bean
-    public Step socioStep2() throws Exception {
-        return stepBuilders.get("socioDbBatchStepPending")
-                .<SocioAssociatedSocio, SocioAssociatedSocio>chunk(20)
-                .reader(pendingReader.itemReader(datasource))
-                .processor(pendingProcessor)
-                .writer(pendingWriter)
+    public Step userStep2() throws Exception {
+        return stepBuilders.get("addressbatchdbsociowriteStep")
+                .<Address, Address>chunk(20)
+                .reader(addressReader.itemReader(dataSource))
+                .processor(addressProcessor)
+                .writer(addressWriter)
                 .transactionManager(transactionManager)
                 .build();
     }
