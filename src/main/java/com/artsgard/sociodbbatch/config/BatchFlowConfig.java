@@ -1,14 +1,14 @@
 package com.artsgard.sociodbbatch.config;
 
 
-import com.artsgard.sociodbbatch.model.Address;
-import com.artsgard.sociodbbatch.model.User;
+import com.artsgard.sociodbbatch.model.AddressModel;
+import com.artsgard.sociodbbatch.model.SocioModel;
 import com.artsgard.sociodbbatch.processors.AddressProcessor;
-import com.artsgard.sociodbbatch.processors.UserProcessor;
+import com.artsgard.sociodbbatch.processors.SocioProcessor;
 import com.artsgard.sociodbbatch.readers.AddressReader;
-import com.artsgard.sociodbbatch.readers.UserReader;
+import com.artsgard.sociodbbatch.readers.SocioReader;
 import com.artsgard.sociodbbatch.writers.AddressWriter;
-import com.artsgard.sociodbbatch.writers.UserWriter;
+import com.artsgard.sociodbbatch.writers.SocioWriter;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -48,13 +48,13 @@ public class BatchFlowConfig {
     private JobRepository jobRepository;
     
     @Autowired
-    private UserProcessor userProcessor;
+    private SocioProcessor socioProcessor;
 
     @Autowired
-    private UserReader userReader;
+    private SocioReader socioReader;
 
     @Autowired
-    private UserWriter userWriter;
+    private SocioWriter socioWriter;
     
     @Autowired
     private AddressProcessor addressProcessor;
@@ -65,30 +65,30 @@ public class BatchFlowConfig {
     @Autowired
     private AddressWriter addressWriter;
 
-    @Bean(name = "userjob")
+    @Bean(name = "sociojob")
     public Job userDbJob() throws Exception {
         return jobBuilders.get("batchdbsociowriteJob")
                 .repository(jobRepository)
-                .start(userStep1())
-                .next(userStep2())
+                .start(socioStep())
+                .next(addressStep())
                 .build();
     }
 
     @Bean
-    public Step userStep1() throws Exception {
-        return stepBuilders.get("userbatchdbsociowriteStep")
-                .<User, User>chunk(20)
-                .reader(userReader.itemReader(dataSource))
-                .processor(userProcessor)
-                .writer(userWriter)
+    public Step socioStep() throws Exception {
+        return stepBuilders.get("sociobatchdbsociowriteStep")
+                .<SocioModel, SocioModel>chunk(20)
+                .reader(socioReader.itemReader(dataSource))
+                .processor(socioProcessor)
+                .writer(socioWriter)
                 .transactionManager(transactionManager)
                 .build();
     }
     
     @Bean
-    public Step userStep2() throws Exception {
+    public Step addressStep() throws Exception {
         return stepBuilders.get("addressbatchdbsociowriteStep")
-                .<Address, Address>chunk(20)
+                .<AddressModel, AddressModel>chunk(20)
                 .reader(addressReader.itemReader(dataSource))
                 .processor(addressProcessor)
                 .writer(addressWriter)

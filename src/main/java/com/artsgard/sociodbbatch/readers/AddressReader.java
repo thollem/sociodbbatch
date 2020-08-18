@@ -1,6 +1,6 @@
 package com.artsgard.sociodbbatch.readers;
 
-import com.artsgard.sociodbbatch.model.Address;
+import com.artsgard.sociodbbatch.model.AddressModel;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.batch.item.ItemReader;
 import javax.sql.DataSource;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AddressReader {
-    private static final String QUERY_FIND_ALL_ADDRESSES = "select a from Address a";
+    private static final String QUERY_FIND_ALL_ADDRESSES = "select a from AddressModel a";
 
     @Autowired
     @Qualifier("dbEntityManagerFactory")
     private EntityManagerFactory entityManagerFactory;
 
-    public ItemReader<Address> itemReader(DataSource dataSource) {
-        return new JpaPagingItemReaderBuilder<Address>()
+    public ItemReader<AddressModel> itemReader(DataSource dataSource) {
+        return new JpaPagingItemReaderBuilder<AddressModel>()
                 .name("address-reader")
                 .entityManagerFactory(entityManagerFactory)
                 .queryString(QUERY_FIND_ALL_ADDRESSES)

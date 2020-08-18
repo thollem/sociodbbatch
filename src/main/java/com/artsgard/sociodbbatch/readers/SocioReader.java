@@ -1,6 +1,6 @@
 package com.artsgard.sociodbbatch.readers;
 
-import com.artsgard.sociodbbatch.model.User;
+import com.artsgard.sociodbbatch.model.SocioModel;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.batch.item.ItemReader;
 import javax.sql.DataSource;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Component;
  * @author artsgard
  */
 @Component
-public class UserReader {
-    private static final String QUERY_FIND_ALL_USERS = "select a from User a";
+public class SocioReader {
+    private static final String QUERY_FIND_ALL_USERS = "select a from SocioModel a";
 
     @Autowired
     @Qualifier("dbEntityManagerFactory")
     private EntityManagerFactory entityManagerFactory;
 
-    public ItemReader<User> itemReader(DataSource dataSource) {
-        return new JpaPagingItemReaderBuilder<User>()
+    public ItemReader<SocioModel> itemReader(DataSource dataSource) {
+        return new JpaPagingItemReaderBuilder<SocioModel>()
                 .name("user-reader")
                 .entityManagerFactory(entityManagerFactory)
                 .queryString(QUERY_FIND_ALL_USERS)

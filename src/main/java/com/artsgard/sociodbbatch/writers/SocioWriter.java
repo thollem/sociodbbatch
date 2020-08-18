@@ -1,11 +1,11 @@
 package com.artsgard.sociodbbatch.writers;
 
-import com.artsgard.sociodbbatch.model.User;
-import com.artsgard.sociodbbatch.repository.UserRepository;
+import com.artsgard.sociodbbatch.model.SocioModel;
 import java.util.List;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.artsgard.sociodbbatch.repository.SocioRepository;
 
 /**
  *
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class UserWriter implements ItemWriter<User> {
+public class SocioWriter implements ItemWriter<SocioModel> {
     
     @Autowired
-    private UserRepository repo;
+    private SocioRepository repo;
     
     @Override
-    public void write(List<? extends User> users) throws Exception {
-        repo.saveAll(users);
+    public void write(List<? extends SocioModel> socios) throws Exception {
+        repo.saveAll(socios);
     }
 }
