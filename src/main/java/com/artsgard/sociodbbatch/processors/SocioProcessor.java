@@ -22,7 +22,7 @@ public class SocioProcessor implements ItemProcessor<SocioModel, SocioModel> {
     public SocioModel process(SocioModel socio) throws Exception {
         System.out.println(socio.getUsername());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        socio.setUsername(socio.getUsername() + " / " +  dateFormat.format(new Date()));
+        //socio.setUsername(socio.getUsername() + " / " +  dateFormat.format(new Date()));
         System.out.println(socio.getUsername());
         return socio;
     }

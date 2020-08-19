@@ -28,7 +28,6 @@ public class BatchDbMetaDataRepoConfig {
     @Bean(name = "batchDataSource")
     @ConfigurationProperties("app.datasource.batch.hikari")
     public DataSource dataSource(@Qualifier("batchDataSourceProperties") DataSourceProperties dataSourceProperties) {
-        return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class)
-                .build();
+        return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 }

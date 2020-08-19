@@ -1,7 +1,7 @@
 package com.artsgard.sociodbbatch.readers;
 
-import com.artsgard.sociodbbatch.model.SocioModel;
-import com.artsgard.sociodbbatch.repository.SocioRepository;
+import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
+import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
 import java.util.Iterator;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.core.StepExecution;
@@ -14,22 +14,22 @@ import org.springframework.stereotype.Component;
  * @author artsgard
  */
 @Component
-public class SocioReader implements ItemReader<SocioModel> {
+public class AssociatedSocioReader implements ItemReader<SocioAssociatedSocio> {
    
     @Autowired
-    private SocioRepository repo;
+    private AssociatedSocioRepository repo;
 
-    private Iterator<SocioModel> socioIterator;
+    private Iterator<SocioAssociatedSocio> associatedSocioIterator;
 
     @BeforeStep
     public void before(StepExecution stepExecution) {
-        socioIterator = repo.findAll().iterator();
+        associatedSocioIterator = repo.findAll().iterator();
     }
 
     @Override
-    public SocioModel read() {
-        if (socioIterator != null && socioIterator.hasNext()) {
-            return socioIterator.next();
+    public SocioAssociatedSocio read() {
+        if (associatedSocioIterator != null && associatedSocioIterator.hasNext()) {
+            return associatedSocioIterator.next();
         } else {
             return null;
         }

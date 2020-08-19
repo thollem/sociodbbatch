@@ -1,7 +1,10 @@
 package com.artsgard.sociodbbatch;
 
+import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
+import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -35,6 +38,7 @@ import org.springframework.stereotype.Component;
  * java.lang.IllegalStateException: Session/EntityManager is closed
  * 
  */
+
 @Component
 public class ScheduledTasks {
 
@@ -50,6 +54,9 @@ public class ScheduledTasks {
     private Job job;
 
     public static final int ONE_SINGLE_DAY = 86400000;
+    
+    @Autowired
+    private AssociatedSocioRepository repo;
 
     @Scheduled(fixedDelayString = "${batch.delay}") // fixedRateString / @Scheduled(cron = "${batch.cron}")
     public void schedule() throws JobExecutionAlreadyRunningException, JobRestartException, JobParametersInvalidException, JobInstanceAlreadyCompleteException {
