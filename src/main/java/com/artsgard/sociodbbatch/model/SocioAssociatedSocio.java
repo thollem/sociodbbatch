@@ -1,4 +1,4 @@
-	package com.artsgard.sociodbbatch.model;
+package com.artsgard.sociodbbatch.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -13,8 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * 
+ * @author artsgard
+ */
 @Entity(name = "SocioAssociatedSocio")
-@Table(name = "socio_associated_socio") //, catalog = "socio_db") , schema = "socio_db")
+@Table(name = "socio_associated_socio")
 @IdClass(SocioAssociatedSocioId.class)
 public class SocioAssociatedSocio implements Serializable {
 
@@ -30,19 +34,18 @@ public class SocioAssociatedSocio implements Serializable {
     }
     
     @Id
+    @Column(name = "socio_id", nullable = true)
     private Long socioId;
     
     @Id
-    private Long associatedSocioId;
+    @Column(name = "associated_socio_id", nullable = true) private Long associatedSocioId;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "socioId", updatable = false, insertable = false,
-            referencedColumnName = "id")
+    @JoinColumn(name = "associated_socio_id", updatable = false, insertable = false, referencedColumnName = "id")
     private SocioModel socio;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "associatedSocioId", updatable = false, insertable = false,
-            referencedColumnName = "id")
+    @JoinColumn(name = "associated_socio_id", updatable = false, insertable = false, referencedColumnName = "id")
     private SocioModel associatedSocio;
     
     public enum AssociatedSocioState {

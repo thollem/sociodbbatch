@@ -23,11 +23,9 @@ public class AssociatedSocioWriter implements ItemWriter<SocioAssociatedSocio> {
     public void write(List<? extends SocioAssociatedSocio> associated) throws Exception {
         List<SocioAssociatedSocio> list = new ArrayList();
         
-        for (SocioAssociatedSocio scs: associated) {
-            if(scs != null) {
-                list.add(scs);
-            }
-        }
+        associated.stream().filter(scs -> (scs != null)).forEachOrdered(scs -> {
+            list.add(scs);
+        });
         repo.saveAll(list);
     }
 }

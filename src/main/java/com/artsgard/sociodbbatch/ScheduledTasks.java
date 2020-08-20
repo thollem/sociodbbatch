@@ -1,10 +1,8 @@
 package com.artsgard.sociodbbatch;
 
-import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
 import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -24,19 +22,6 @@ import org.springframework.stereotype.Component;
 /**
  * 
  * @author artsgard
- * Caused by: java.lang.IllegalStateException: Cannot open an already opened ItemReader, call close first
- * 
- * 
- * org.springframework.batch.item.ItemStreamException: Failed to initialize the reader
- * Caused by: java.lang.IllegalStateException: Cannot open an already opened ItemReader, call close first
- * 2020-08-18 13:26:06,768 ERROR [scheduling-1] org.springframework.batch.core.step.AbstractStep: Encountered an error executing step userbatchdbsociowriteStep in job batchdbsociowriteJob
- *  java.lang.IllegalStateException: Session/EntityManager is closed
- * 
- * Failed to initialize the reader
- * Cannot open an already opened ItemReader, call close first
- * org.springframework.batch.core.step.AbstractStep: Encountered an error executing step
- * java.lang.IllegalStateException: Session/EntityManager is closed
- * 
  */
 
 @Component

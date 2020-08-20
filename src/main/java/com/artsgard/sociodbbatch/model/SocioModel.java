@@ -19,11 +19,15 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 
+ * @author artsgard
+ */
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "socio") //, catalog = "socio_db") , schema = "socio_db") , schema = "socio_db")
-public class SocioModel implements Serializable { // UserDetails
+@Table(name = "socio")
+public class SocioModel implements Serializable {
 
     public SocioModel(Long id, String username, String password, String firstName, String lastName, String email, 
             Boolean active, List<LanguageModel> socioLanguages, List<AddressModel> socioAddresses) {

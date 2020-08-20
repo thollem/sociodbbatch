@@ -1,6 +1,5 @@
 package com.artsgard.sociodbbatch.config;
 
-
 import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
 import com.artsgard.sociodbbatch.model.SocioModel;
 import com.artsgard.sociodbbatch.processors.AssociatedSocioProcessor;
@@ -9,7 +8,6 @@ import com.artsgard.sociodbbatch.readers.AssociatedSocioReader;
 import com.artsgard.sociodbbatch.readers.SocioReader;
 import com.artsgard.sociodbbatch.writers.AssociatedSocioWriter;
 import com.artsgard.sociodbbatch.writers.SocioWriter;
-import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -26,7 +24,6 @@ import org.springframework.transaction.PlatformTransactionManager;
  *
  * @author artsgard
  */
-
 @Configuration
 @EnableBatchProcessing
 public class BatchFlowConfig {
@@ -64,7 +61,7 @@ public class BatchFlowConfig {
 
     @Bean(name = "sociojob")
     public Job userDbJob() throws Exception {
-        return jobBuilders.get("batchdbsociowriteJob")
+        return jobBuilders.get("batchdbsocioJob")
                 .repository(jobRepository)
                 .start(socioStep())
                 .next(associatedSocioStep())
@@ -73,7 +70,7 @@ public class BatchFlowConfig {
 
     @Bean
     public Step socioStep() throws Exception {
-        return stepBuilders.get("sociobatchdbsociowriteStep")
+        return stepBuilders.get("sociobatchdbsocioassociatedStep")
                 .<SocioModel, SocioModel>chunk(20)
                 .reader(socioReader)
                 .processor(socioProcessor)
@@ -81,7 +78,7 @@ public class BatchFlowConfig {
                 .transactionManager(transactionManager)
                 .build();
     }
-    
+ 
     @Bean
     public Step associatedSocioStep() throws Exception {
         return stepBuilders.get("associatedsociodbsociowriteStep")
@@ -92,4 +89,5 @@ public class BatchFlowConfig {
                 .transactionManager(transactionManager)
                 .build();
     }
+
 }

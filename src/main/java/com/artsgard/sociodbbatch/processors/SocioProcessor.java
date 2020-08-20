@@ -1,12 +1,12 @@
 package com.artsgard.sociodbbatch.processors;
 
 import com.artsgard.sociodbbatch.model.SocioModel;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.batch.item.ItemProcessor;
 import com.artsgard.sociodbbatch.repository.SocioRepository;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  *
@@ -20,10 +20,21 @@ public class SocioProcessor implements ItemProcessor<SocioModel, SocioModel> {
 
     @Override
     public SocioModel process(SocioModel socio) throws Exception {
-        System.out.println(socio.getUsername());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        //socio.setUsername(socio.getUsername() + " / " +  dateFormat.format(new Date()));
-        System.out.println(socio.getUsername());
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        Calendar calNow = Calendar.getInstance();
+        calNow.setTimeInMillis(now.getTime());
+        
+        Calendar calRegister = Calendar.getInstance();
+        Timestamp lastCheckin = socio.getLastCheckinDate();
+       
+        calRegister.setTimeInMillis(lastCheckin.getTime());
+        calRegister.add(Calendar.MONTH, 1);
+       
+        if(calRegister.after(calNow)) {
+            socio.setActive(Boolean.TRUE);
+        } else {
+            socio.setActive(Boolean.FALSE);
+        }
         return socio;
     }
 }

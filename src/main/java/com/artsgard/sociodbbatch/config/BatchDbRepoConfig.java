@@ -11,17 +11,19 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-
 import com.zaxxer.hikari.HikariDataSource;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * 
+ * @author artsgard
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"com.artsgard.sociodbbatch.repository", "com.artsgard.sociodbbatch.config" },
                 entityManagerFactoryRef = "dbEntityManagerFactory", 
                 transactionManagerRef = "dbTransactionManager")
-
 public class BatchDbRepoConfig {
 	
 	@Bean(name = "dbDataSourceProperties")
@@ -41,10 +43,10 @@ public class BatchDbRepoConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
 			EntityManagerFactoryBuilder builder, @Qualifier("dbDataSource") DataSource dataSource) {
 		return builder
-				.dataSource(dataSource)
-				.packages("com.artsgard.sociodbbatch.model")
-				.persistenceUnit("db")
-				.build();
+                    .dataSource(dataSource)
+                    .packages("com.artsgard.sociodbbatch.model")
+                    .persistenceUnit("db")
+                    .build();
 	}
 
 	@Bean(name = "dbTransactionManager")

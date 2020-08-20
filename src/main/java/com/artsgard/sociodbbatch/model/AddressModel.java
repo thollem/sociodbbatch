@@ -18,11 +18,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 
+ * @author artsgard
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "address") //, catalog = "socio_db")
+@Table(name = "address")
 public class AddressModel implements Serializable {
     
     @Id
