@@ -9,7 +9,7 @@ import org.springframework.batch.item.ItemProcessor;
 import com.artsgard.sociodbbatch.socio.repository.SocioRepository;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -18,20 +18,13 @@ import java.util.Calendar;
 @Component
 public class SocioAccountProcessor implements ItemProcessor<SocioModel, Account> {
 
-    @Autowired
-    private SocioRepository repo;
-
-    @Autowired
-    private AccountRepository accountRepo;
-
     @Override
     public Account process(SocioModel socio) throws Exception {
         Timestamp now = new Timestamp(System.currentTimeMillis());
-        Calendar calNow = Calendar.getInstance();
-        calNow.setTimeInMillis(now.getTime());
-
-        //if (socio.getRegisterDate().after(now)) {
-        if (socio.getUsername().equals("rw")) {
+       
+        SimpleDateFormat dayformat = new SimpleDateFormat("yyyyMMdd");
+        // add a new socio to the bank of today only (with a 20euro bonus)
+        if (dayformat.format(socio.getRegisterDate()).equals(dayformat.format(now))) {
             Account account = new Account();
             account.setIban("iban-" + socio.getUsername());
             account.setUsername(socio.getUsername());
