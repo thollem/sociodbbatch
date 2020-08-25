@@ -1,7 +1,7 @@
 package com.artsgard.sociodbbatch.readers;
 
-import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
-import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
+import com.artsgard.sociodbbatch.socio.model.SocioAssociatedSocio;
+import com.artsgard.sociodbbatch.socio.repository.AssociatedSocioRepository;
 import java.util.Iterator;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.core.StepExecution;

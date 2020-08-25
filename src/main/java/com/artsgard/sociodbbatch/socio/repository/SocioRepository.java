@@ -1,6 +1,6 @@
-package com.artsgard.sociodbbatch.repository;
+package com.artsgard.sociodbbatch.socio.repository;
 
-import com.artsgard.sociodbbatch.model.SocioModel;
+import com.artsgard.sociodbbatch.socio.model.SocioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SocioRepository extends JpaRepository<SocioModel, Long> {

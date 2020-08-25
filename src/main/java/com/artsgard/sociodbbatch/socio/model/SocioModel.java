@@ -1,4 +1,4 @@
-package com.artsgard.sociodbbatch.model;
+package com.artsgard.sociodbbatch.socio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;

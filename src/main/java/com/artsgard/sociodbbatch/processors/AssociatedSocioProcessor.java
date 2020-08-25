@@ -1,7 +1,7 @@
 package com.artsgard.sociodbbatch.processors;
 
-import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
-import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
+import com.artsgard.sociodbbatch.socio.model.SocioAssociatedSocio;
+import com.artsgard.sociodbbatch.socio.repository.AssociatedSocioRepository;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;

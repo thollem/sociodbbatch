@@ -1,6 +1,6 @@
 package com.artsgard.sociodbbatch;
 
-import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
+import com.artsgard.sociodbbatch.socio.repository.AssociatedSocioRepository;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.slf4j.Logger;

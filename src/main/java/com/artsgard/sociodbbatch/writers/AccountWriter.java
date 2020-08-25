@@ -1,6 +1,7 @@
 package com.artsgard.sociodbbatch.writers;
 
-import com.artsgard.sociodbbatch.socio.model.SocioModel;
+import com.artsgard.sociodbbatch.bank.model.Account;
+import com.artsgard.sociodbbatch.bank.repository.AccountRepository;
 import java.util.List;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,13 @@ import com.artsgard.sociodbbatch.socio.repository.SocioRepository;
  */
 
 @Component
-public class SocioWriter implements ItemWriter<SocioModel> {
+public class AccountWriter implements ItemWriter<Account> {
     
     @Autowired
-    private SocioRepository repo;
+    private AccountRepository repo;
     
     @Override
-    public void write(List<? extends SocioModel> socios) throws Exception {
-        repo.saveAll(socios);
+    public void write(List<? extends Account> accounts) throws Exception {
+        repo.saveAll(accounts);
     }
 }

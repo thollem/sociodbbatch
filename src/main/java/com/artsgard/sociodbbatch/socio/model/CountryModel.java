@@ -1,4 +1,4 @@
-package com.artsgard.sociodbbatch.model;
+package com.artsgard.sociodbbatch.socio.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "language") //, catalog = "socio_db") , schema = "socio_db")
-public class LanguageModel implements Serializable {
+@Table(name = "country") //, catalog = "socio_db") , schema = "socio_db")
+public class CountryModel implements Serializable {
     
     @Id
     @GeneratedValue(strategy = IDENTITY)

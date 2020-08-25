@@ -21,37 +21,37 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"com.artsgard.sociodbbatch.repository", "com.artsgard.sociodbbatch.config" },
-                entityManagerFactoryRef = "dbEntityManagerFactory", 
-                transactionManagerRef = "dbTransactionManager")
-public class BatchDbRepoConfig {
+@EnableJpaRepositories(basePackages = {"com.artsgard.sociodbbatch.bank.repository", "com.artsgard.sociodbbatch.config" },
+                entityManagerFactoryRef = "bankDbEntityManagerFactory", 
+                transactionManagerRef = "bankDbTransactionManager")
+public class BatchBankDbRepoConfig {
 	
-	@Bean(name = "dbDataSourceProperties")
-	@ConfigurationProperties("app.datasource.db")
+	@Bean(name = "bankDbDataSourceProperties")
+	@ConfigurationProperties("app.datasource.bankdb")
 	public DataSourceProperties dataSourceProperties() {
 		return new DataSourceProperties();
 	}
 
-	@Bean(name = "dbDataSource")
-	@ConfigurationProperties("app.datasource.db.hikari")
-	public DataSource dataSource(@Qualifier("dbDataSourceProperties") DataSourceProperties dataSourceProperties) {
+	@Bean(name = "bankDbDataSource")
+	@ConfigurationProperties("app.datasource.bankdb.hikari")
+	public DataSource dataSource(@Qualifier("bankDbDataSourceProperties") DataSourceProperties dataSourceProperties) {
 		return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class)
 				.build();
 	}
 	
-	@Bean(name = "dbEntityManagerFactory")
+	@Bean(name = "bankDbEntityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-			EntityManagerFactoryBuilder builder, @Qualifier("dbDataSource") DataSource dataSource) {
+			EntityManagerFactoryBuilder builder, @Qualifier("bankDbDataSource") DataSource dataSource) {
 		return builder
                     .dataSource(dataSource)
-                    .packages("com.artsgard.sociodbbatch.model")
-                    .persistenceUnit("db")
+                    .packages("com.artsgard.sociodbbatch.bank.model")
+                    .persistenceUnit("bankdb")
                     .build();
 	}
 
-	@Bean(name = "dbTransactionManager")
+	@Bean(name = "bankDbTransactionManager")
 	public PlatformTransactionManager transactionManager(
-			@Qualifier("dbEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+			@Qualifier("bankDbEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
 		return new JpaTransactionManager(entityManagerFactory);
 	}
 }

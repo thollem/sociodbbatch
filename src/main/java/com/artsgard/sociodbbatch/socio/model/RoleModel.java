@@ -1,4 +1,4 @@
-package com.artsgard.sociodbbatch.model;
+package com.artsgard.sociodbbatch.socio.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;

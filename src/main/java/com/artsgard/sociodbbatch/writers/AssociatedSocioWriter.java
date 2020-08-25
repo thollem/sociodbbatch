@@ -1,7 +1,7 @@
 package com.artsgard.sociodbbatch.writers;
 
-import com.artsgard.sociodbbatch.model.SocioAssociatedSocio;
-import com.artsgard.sociodbbatch.repository.AssociatedSocioRepository;
+import com.artsgard.sociodbbatch.socio.model.SocioAssociatedSocio;
+import com.artsgard.sociodbbatch.socio.repository.AssociatedSocioRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.batch.item.ItemWriter;
